@@ -6,7 +6,7 @@
 ;;;
 
 (defun solve-part-1 (inputfile)
-  (let ((input (mapcar 'parse-intstr-to-real (readfile inputfile)))
+  (let ((input (mapcar 'parse-to-num (readfile inputfile)))
         (counter 0))
     (while (> (length input) 1)
       (if (< (first input) (first (rest input)))
@@ -33,7 +33,7 @@
 ;;;
 
 (defun solve-part-2 (inputfile)
-  (let ((input (listtoarray (mapcar 'parse-intstr-to-real (readfile inputfile))))
+  (let ((input (listtoarray (mapcar 'parse-to-num (readfile inputfile))))
         (i 0)
         (res 0))  ; result
     (while (< i (- (length input) 3))
