@@ -17,10 +17,10 @@
        (let* ((line (string-split row " "))
               (instr (first line))
               (value (al-parse-integer (second line))))
-         (cond
-          ((equal instr "forward") (setf (point-x p) (+ (point-x p) value)))
-          ((equal instr "down") (setf (point-d p) (+ (point-d p) value)))
-          ((equal instr "up") (setf (point-d p) (- (point-d p) value))))))
+         (case instr
+          ("forward" (setf (point-x p) (+ (point-x p) value)))
+          ("down" (setf (point-d p) (+ (point-d p) value)))
+          ("up" (setf (point-d p) (- (point-d p) value))))))
    rows)
   p)
 
@@ -59,12 +59,12 @@
        (let* ((line (string-split row " "))
               (instr (first line))
               (value (al-parse-integer (second line))))
-         (cond
-          ((equal instr "forward")
+         (case instr
+          ("forward"
            (setf (subm-x s) (+ (subm-x s) value))
            (setf (subm-d s) (+ (subm-d s) (* (subm-a s) value))))
-          ((equal instr "down") (setf (subm-a s) (+ (subm-a s) value)))
-          ((equal instr "up") (setf (subm-a s) (- (subm-a s) value))))
+          ("down" (setf (subm-a s) (+ (subm-a s) value)))
+          ("up" (setf (subm-a s) (- (subm-a s) value))))
          ))
    rows)
   s)
