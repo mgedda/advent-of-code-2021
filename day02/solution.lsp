@@ -16,7 +16,7 @@
    #'(lambda (row)
        (let* ((line (string-split row " "))
               (instr (first line))
-              (value (parse-to-num (second line))))
+              (value (al-parse-integer (second line))))
          (cond
           ((equal instr "forward") (setf (point-x p) (+ (point-x p) value)))
           ((equal instr "down") (setf (point-d p) (+ (point-d p) value)))
@@ -58,7 +58,7 @@
    #'(lambda (row)
        (let* ((line (string-split row " "))
               (instr (first line))
-              (value (parse-to-num (second line))))
+              (value (al-parse-integer (second line))))
          (cond
           ((equal instr "forward")
            (setf (subm-x s) (+ (subm-x s) value))

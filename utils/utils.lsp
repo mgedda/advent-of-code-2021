@@ -9,8 +9,8 @@
                      (reverse res))))
 
 
-(defun parse-to-num (str)
-  "Parse string containing an integer to number."
+(defun al-parse-integer (str)
+  "Parse string containing an integer."
   (let ((base 48)
         (i 0)
         (mult 0)
@@ -26,6 +26,26 @@
       (setf s (cdr s)))
     (+ res 0)
     ))
+
+(defun bitlist-to-int (b)
+  "Convert list of bits values to integer."
+  (let ((mult 0)
+        (i 0)
+        (rb (reverse b))
+        (acc 0))
+    (while (< i (length b))
+      (setf mult (expt 2 i))
+      (setf acc (+ acc (* (first rb) mult)))
+      (setf rb (rest rb))
+      (setf i (1+ i))
+      )
+    acc)
+  )
+
+(defun invert-bitlist (bitlist)
+  "Invert list of bits."
+  (mapcar #'(lambda (bit) (if (= 1 bit) 0 1)) bitlist)
+  )
 
 
 (defun string-left-trim-s (str x)
@@ -72,5 +92,15 @@
     ;; Return result
     (reverse res)  
     )
+  )
+
+(defun make-list (len val)
+  "Make a list with LEN number of VAL."
+  (let ((i len)
+        (res '()))
+    (while (> i 0)
+      (setf res (cons val res))
+      (setf i (1- i)))
+    res)
   )
 
