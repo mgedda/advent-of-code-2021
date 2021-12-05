@@ -28,7 +28,7 @@
     ))
 
 (defun bitlist-to-int (b)
-  "Convert list of bits values to integer."
+  "Convert list of bit values to integer."
   (let ((mult 0)
         (i 0)
         (rb (reverse b))
@@ -46,6 +46,11 @@
   "Invert list of bits."
   (mapcar #'(lambda (bit) (if (= 1 bit) 0 1)) bitlist)
   )
+
+(defun parse-binary (s)
+  "Convert binary string to integer."
+  (bitlist-to-int (mapcar #'al-parse-integer (explode s))))
+  
 
 
 (defun string-left-trim-s (str x)
