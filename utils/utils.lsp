@@ -10,7 +10,7 @@
 
 
 (defun al-parse-integer (str)
-  "Parse string containing an integer."
+  "Parse string containing an integer. (NOTE ONLY POSITIVE INTEGERS!)"
   (let ((base 48)
         (i 0)
         (mult 0)
@@ -52,6 +52,9 @@
   (bitlist-to-int (mapcar #'al-parse-integer (explode s))))
   
 
+(defun string-of-ints-to-list (str delim)
+  (mapcar #'al-parse-integer (string-trim-and-split str delim))
+  )
 
 (defun string-left-trim-s (str x)
   "Recursively remove string X from beginning of string STR"
