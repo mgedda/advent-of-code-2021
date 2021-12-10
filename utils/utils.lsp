@@ -112,3 +112,7 @@
     res)
   )
 
+(defun sign (x)
+  (if (zerop x) 1 (/ x (abs x)))
+  )
+
