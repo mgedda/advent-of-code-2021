@@ -14,52 +14,6 @@
     )
   )
 
-(defun reduce-days (fish)
-  (mapcar #'(lambda (f) (if (= f 0) 6 (1- f) )) fish)
-  )
-
-(defun spawn-fish (fish)
-  (make-list (length (remove-if-not #'(lambda (x) (= x 0)) fish)) 8)
-  )
-
-(defun cycle (fish days)
-  (if (= days 0)
-      fish
-    (progn
-      (let* ((fish_prim (reduce-days fish))
-            (new_fish (spawn-fish fish))
-            (fish_updated (append fish_prim new_fish)))
-        (cycle fish_updated (1- days))
-        )
-      )
-    )
-  )
-
-
-(defun solve-part-1 (inputfile days)
-  (let* ((fish (parse-input inputfile))) 
-    (length (cycle fish days))
-    )
-  )
-
-;; Test
-;;
-(defun part-1-test ()
-  (solve-part-1 "input-test.txt" 80))
-
-;; Entry point
-;;
-(defun part-1 ()
-  (solve-part-1 "input.txt" 80))
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;; Part 2
-;;;
-
-
 (defun update-hist (hist)
   (let ((z (aref hist 0)))  ; save hist[0]
     (setf (aref hist 0) (aref hist 1))
@@ -74,7 +28,7 @@
     hist)
   )
 
-(defun solve-part-2 (inputfile days)
+(defun solve (inputfile days)
   (let* ((fish (parse-input inputfile))
          (hist (make-array 9 :initial-element 0))) 
     ;; Store number of fishes in a histogram
@@ -89,13 +43,32 @@
 
 ;; Test
 ;;
+(defun part-1-test ()
+  (solve "input-test.txt" 80))
+
+;; Entry point
+;;
+(defun part-1 ()
+  (solve "input.txt" 80))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Part 2
+;;;
+
+
+
+;; Test
+;;
 (defun part-2-test ()
-  (solve-part-2 "input-test.txt" 256))
+  (solve "input-test.txt" 256))
 
 ;; Entry point
 ;;
 (defun part-2 ()
-  (solve-part-2 "input.txt" 256))
+  (solve "input.txt" 256))
 
 
 
