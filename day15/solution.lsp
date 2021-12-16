@@ -82,14 +82,16 @@
     )  
   )
 
-(defun get-non-visited-min-cost-nodes (positions cost_map visited_map)
+(defun get-unvisited-positions (positions visited_map)
+  (remove-if #'(lambda (pos)
+                 (> (val pos visited_map) 0))
+             positions))
+
+
+(defun get-min-cost-nodes (positions cost_map)
   "Poor mans priority queue."
-  (let ((non-visited-positions '())
-        (min-cost-nodes '())
+  (let ((min-cost-nodes '())
         (min_cost 999999999))
-    (setf non-visited-positions (remove-if #'(lambda (pos)
-                                               (> (val pos visited_map) 0))
-                                           positions))
     (mapc #'(lambda (pos)
               (let ((pos_cost (val pos cost_map)))
                 (cond ((< pos_cost min_cost)
@@ -100,7 +102,7 @@
                       )
                 )
               )
-          non-visited-positions)
+          positions)
     min-cost-nodes)
   )
 
@@ -109,7 +111,7 @@
   (let ((cost_map (new-map-same-size 9999999999 map))
         (parent_map (new-map-same-size nil map))
         (visited_map (new-map-same-size 0 map))
-        (all-positions (get-all-positions map))
+        (unvisited_positions (get-all-positions map))
         (current start)
         (nbrs'()))
     (update-map start 0 cost_map)   ;; Set cost at start node to zero
@@ -118,14 +120,10 @@
       ;; (2) Update parent map for neighbours
       ;; (3) Mark current as visited
       ;; (4) Choose new current pos with min cost
-      ;;(formatl t "current=" current t)
       (setf nbrs (neighbors current map))              ;; get neighbors
-      ;;(formatl t "nbrs=" nbrs t)
       (setf nbrs (remove-if #'(lambda (pos)
                                 (> (val pos visited_map) 0)) ;; Remove visited
                             nbrs))
-      ;;(formatl t "nbrs(red)=" nbrs t)
-      ;;(help "1")
       (mapc #'(lambda (nbr)
                 (let* ((curr_cost (val current cost_map))
                        (nbr_cost (val nbr cost_map))
@@ -137,10 +135,10 @@
                     )
                   ))
             nbrs)
-      
-      (update-map current 1 visited_map)   ;; mark current as visited      
-      (setf current (first (get-non-visited-min-cost-nodes
-                            all-positions cost_map visited_map)))
+
+      (update-map current 1 visited_map)   ;; mark current as visited
+      (setf unvisited_positions (get-unvisited-positions unvisited_positions visited_map))
+      (setf current (first (get-min-cost-nodes unvisited_positions cost_map)))
       )
     
     (val current cost_map)
